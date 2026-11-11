@@ -1,0 +1,30 @@
+PGX CLOUD - DATA PRESERVATION NOTES
+
+1. This package keeps the current users.json, bots/ directory, bot database, bot source/log files,
+   and the existing .pgx_secret_key from the supplied latest ZIP.
+2. Before installing over an existing live hosting folder, stop the app and make a separate copy
+   of users.json, bots/, .pgx_secret_key, and any uploaded project folders.
+3. Do not replace those live data items with older copies from BACKUPS. If your live database is
+   newer than this archive, keep the live copy and copy only the updated application/templates.
+4. The application now reads users.json without automatic account renaming/migration and writes
+   it atomically. If users.json is malformed, account writes are refused rather than overwriting it.
+5. Normal users can register and log in at /login. Existing plaintext-password records continue
+   to authenticate and are upgraded to password hashes after successful login.
+6. Admin login remains role-protected. Create Server checks the current admin record and does not
+   silently change an existing user's password. For an existing username, enter that user's
+   current password; otherwise choose a new username and set its password.
+7. Google sign-in requires GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REDIRECT_URI in the
+   hosting environment. Register the exact public callback URL /auth/google/callback in Google
+   Cloud Console. Never put OAuth secrets in frontend files or share them in chat.
+8. Install requirements with: pip install -r requirements.txt
+   Run directly with: python app.py
+   The app listens on 0.0.0.0 and PORT (default 5000). WSGI entry points are wsgi.py and
+   passenger_wsgi.py. For Cloudflare Quick Tunnel, run in another terminal:
+   cloudflared tunnel --url http://127.0.0.1:5000
+   Keep both the app and tunnel running. Quick Tunnel URLs are temporary.
+9. Health endpoint: /health
+
+TEST LIMITATION
+Python syntax/AST checks passed while preparing this archive. Full Flask route/browser tests could
+not be run in this build environment because Flask dependencies could not be installed offline.
+Google OAuth also cannot be live-tested without your own Google OAuth credentials and public URL.

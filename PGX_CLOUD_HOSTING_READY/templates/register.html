@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Create account | PGX CLOUD</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="min-h-screen bg-[#080b14] text-white flex items-center justify-center p-4">
+<main class="w-full max-w-md rounded-3xl border border-purple-400/25 bg-[#111625] p-7 shadow-2xl shadow-purple-950/30">
+ <div class="mb-7 text-center"><div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-blue-500 text-2xl">☁</div><h1 class="text-2xl font-black">PGX <span class="text-blue-400">CLOUD</span></h1><p class="mt-1 text-sm text-slate-400">Create your user account</p></div>
+ {% if error %}<div class="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">{{ error }}</div>{% endif %}
+ <form method="POST" class="space-y-4"><label class="block text-sm text-slate-300">Username<input name="username" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" autocomplete="username" class="mt-2 w-full rounded-xl border border-slate-700 bg-[#090e19] px-4 py-3 text-white outline-none focus:border-purple-400"></label><label class="block text-sm text-slate-300">Password (minimum 8 characters)<input type="password" name="password" required minlength="8" autocomplete="new-password" class="mt-2 w-full rounded-xl border border-slate-700 bg-[#090e19] px-4 py-3 text-white outline-none focus:border-purple-400"></label><button class="w-full rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 py-3 font-bold">Create account</button></form>
+ {% if google_enabled %}<div class="my-5 text-center text-xs text-slate-500">OR</div><a href="{{ url_for('auth_google_start', next='account') }}" class="block rounded-xl bg-white py-3 text-center font-semibold text-slate-900">Continue with Google</a>{% endif %}
+ <p class="mt-6 text-center text-sm text-slate-400">Already registered? <a href="{{ url_for('login') }}" class="font-semibold text-blue-400">Login</a></p>
+</main></body></html>

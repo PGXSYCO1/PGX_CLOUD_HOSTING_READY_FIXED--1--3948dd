@@ -1,0 +1,72 @@
+PGX CLOUD — DEPLOYMENT PACKAGE
+==============================
+
+This is the complete Flask website (templates + backend + existing project data).
+It is NOT a static HTML-only page. The hosting provider must support Python WSGI
+applications (cPanel Setup Python App / Passenger, or a Python web service).
+A static-only PHP/HTML file manager cannot run app.py, APIs, login sessions, or
+start user projects.
+
+FILES
+-----
+app.py                 Flask backend and website routes
+wsgi.py                Generic WSGI entry point
+passenger_wsgi.py      cPanel/Passenger entry point
+Procfile               Gunicorn entry point for platforms that use Procfile
+requirements.txt       Python dependencies
+templates/             All website pages (landing, login, admin, user panel)
+users.json             Existing user/project records — preserve this file
+bots/                  Existing bot source, database and logs — preserve this folder
+
+DEPLOY ON CPANEL / PYTHON APP HOSTING
+------------------------------------
+1. Create a Python application in the hosting panel (Python 3.10+ recommended).
+2. Set the application root to the folder containing app.py and passenger_wsgi.py.
+3. Set the startup file to passenger_wsgi.py and the callable to application.
+4. Install requirements.txt in that application's virtual environment.
+5. Add environment variables:
+   PGX_SECRET_KEY=<long random secret>
+   PGX_COOKIE_SECURE=1
+   GOOGLE_CLIENT_ID=<Google OAuth client ID>
+   GOOGLE_CLIENT_SECRET=<Google OAuth client secret>
+   GOOGLE_REDIRECT_URI=https://YOUR-DOMAIN/auth/google/callback
+6. In Google Cloud Console, add the exact HTTPS callback URL above to the
+   OAuth client's Authorized redirect URIs.
+7. Restart the Python application and open https://YOUR-DOMAIN/.
+8. Test https://YOUR-DOMAIN/health and https://YOUR-DOMAIN/login.
+
+DEPLOY ON A GUNICORN / PROCFILE HOST
+------------------------------------
+1. Upload the contents of this folder to the app root (or deploy the ZIP).
+2. Install dependencies from requirements.txt.
+3. Configure the environment variables listed above.
+4. Start with the Procfile command: gunicorn ... app:app
+5. Configure the domain and HTTPS in the hosting provider dashboard.
+
+IMPORTANT DATA RULES
+--------------------
+- Keep users.json and the entire bots/ directory in the persistent application
+  storage. Do not replace them with empty files during later deployments.
+- Back up the host's current users.json and bots/ folder before replacing files.
+- The existing database and project records in this package are preserved from
+  the supplied project archive. New Google sign-in records are stored in
+  google_accounts.json after the first successful OAuth login.
+- Never upload a real .env file or expose GOOGLE_CLIENT_SECRET in HTML/JS.
+- Change the initial SYCO admin password immediately after first login.
+
+LOGIN BEHAVIOR
+--------------
+- /login is the visible login page and retains the admin username/password form.
+- Google sign-in appears after valid OAuth credentials are configured.
+- /free-claim sends signed-out users to /login?next=claim; it does not send them
+  to Telegram. After Google sign-in, the claim is processed inside PGX CLOUD.
+- /health and /healthz are public read-only health checks.
+
+HOSTING LIMITATIONS / SAFETY
+----------------------------
+This panel launches customer Python processes on the same host. It is not a
+hardened multi-tenant container sandbox. Do not expose it to untrusted public
+users without OS/container isolation, resource quotas, and restricted network
+and filesystem permissions. Shared hosting providers may block subprocesses,
+long-running bots, or psutil process inspection. Those capabilities depend on
+host policy and cannot be enabled by HTML changes.

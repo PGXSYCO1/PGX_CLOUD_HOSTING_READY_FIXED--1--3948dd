@@ -1,0 +1,94 @@
+{
+    "Pg": {
+        "password": "Syco",
+        "role": "user",
+        "servers": [
+            {
+                "server_id": "dc5f4db5",
+                "link": "dc5f4db5",
+                "login_url": "/dc5f4db5/login",
+                "dashboard_url": "/dc5f4db5/home",
+                "full_link": "/dc5f4db5/home",
+                "type": "python",
+                "ram": "1GB",
+                "disk": "10GB",
+                "status": "running",
+                "pid": 24221,
+                "created": "2026-11-10 14:29:35.162683",
+                "expiry": "2026-12-10 14:29:35.025334",
+                "main_file": "bot.py",
+                "requirements_file": "requirements.txt",
+                "cpu_limit": 30,
+                "rate_limit_exceeded": true,
+                "stopped_by_user": true,
+                "started_at": "2026-11-11 13:45:35.091803",
+                "ram_limit_exceeded": false
+            }
+        ]
+    },
+    "SYCO": {
+        "role": "admin",
+        "password_hash": "pbkdf2:sha256:600000$116581fe7a720e2be5ae891620c93176$ad8c78c983053a5d8d04805d510e9aabe4e986f0f8c46ef3288d60b93be42fe8",
+        "is_owner": true
+    },
+    "flask_app_f8y8": {
+        "password": "hG7ZQcRB6dbt",
+        "role": "user",
+        "servers": [
+            {
+                "server_id": "e2152aca",
+                "link": "e2152aca",
+                "login_url": "/e2152aca/login",
+                "dashboard_url": "/e2152aca/home",
+                "full_link": "https://objective-clearly-pennsylvania-jul.trycloudflare.com/e2152aca/home",
+                "type": "python",
+                "ram": "512MB",
+                "disk": "10GB",
+                "status": "stopped",
+                "pid": null,
+                "created": "2026-11-11 13:44:06.566648",
+                "expiry": "2026-12-11 13:44:06.418769",
+                "main_file": "main.py",
+                "requirements_file": "requirements.txt",
+                "cpu_limit": 30,
+                "rate_limit_exceeded": false,
+                "stopped_by_user": false
+            }
+        ]
+    },
+    "ADMINONLY": {
+        "password_hash": "scrypt:32768:8:1$BsmrGJ9bT6BTtPs2$d479b274c9a511bb07dea5fe7f83a9d1753a262966ef1d255126c1038779edad730c9313d64df67929cfd83dda02574420334218bf026abc4a281b591c8852dd",
+        "role": "admin",
+        "created_at": "2026-11-11 13:55:40.511730",
+        "created_by": "SYCO"
+    },
+    "PGX": {
+        "role": "user",
+        "password_hash": "scrypt:32768:8:1$ECHEOlEWLSYU0uwM$d50d1a3cb54f24b44be085bf306676bce823a9226fea2618e3b33b9f8399934c2d69a20317cd0a4b94fb078acca00d27b0ba9207c3c2fc4cb5bf8abfb1a1d60c",
+        "servers": [
+            {
+                "server_id": "48f90a24",
+                "link": "48f90a24",
+                "login_url": "/48f90a24/login",
+                "dashboard_url": "/48f90a24/home",
+                "full_link": "/48f90a24/home",
+                "type": "python",
+                "ram": "1GB",
+                "disk": "1GB",
+                "status": "stopped",
+                "pid": null,
+                "created": "2026-11-11 15:02:11.029111",
+                "expiry": "2026-11-14 15:02:10.940630",
+                "main_file": "main.py",
+                "requirements_file": "requirements.txt",
+                "cpu_limit": 30,
+                "rate_limit_exceeded": false,
+                "stopped_by_user": false,
+                "plan": "free"
+            }
+        ],
+        "created_at": "2026-11-11T15:01:59",
+        "free_claimed_at": "2026-11-11T15:02:11",
+        "free_claim_server_id": "48f90a24"
+    }
+}

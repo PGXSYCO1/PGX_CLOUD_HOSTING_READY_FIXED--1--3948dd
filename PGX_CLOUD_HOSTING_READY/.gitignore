@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+.pgx_secret_key
+google_accounts.json
+__pycache__/
+*.py[cod]
+*.log

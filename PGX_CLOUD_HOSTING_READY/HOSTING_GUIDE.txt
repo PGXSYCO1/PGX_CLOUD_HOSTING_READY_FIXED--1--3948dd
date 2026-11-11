@@ -1,0 +1,76 @@
+PGX CLOUD - HOSTING READY PACKAGE
+=================================
+
+IMPORTANT: This is a Python/Flask application, not a static HTML website.
+The host must support Python WSGI + Gunicorn or cPanel Passenger.
+
+DEPLOY (GENERIC PYTHON WSGI HOST)
+--------------------------------
+1. Upload/extract the CONTENTS of this folder into the application's root.
+   app.py, passenger_wsgi.py, requirements.txt and templates/ must be directly
+   inside that root (not one extra nested folder).
+2. Choose Python 3.11 if available.
+3. Install dependencies:
+      pip install -r requirements.txt
+4. Start command (Gunicorn hosts):
+      gunicorn --workers 1 --threads 4 --timeout 120 --bind 0.0.0.0:$PORT app:app
+   For cPanel Setup Python App / Passenger:
+      Startup file: passenger_wsgi.py
+      Callable: application
+5. Set environment variables in the host dashboard:
+      PGX_SECRET_KEY=<generate a private random 64+ character value>
+      PGX_COOKIE_SECURE=1
+      GOOGLE_CLIENT_ID=<your Google OAuth client ID>
+      GOOGLE_CLIENT_SECRET=<your Google OAuth client secret>
+      GOOGLE_REDIRECT_URI=https://YOUR-DOMAIN/auth/google/callback
+6. Add that exact HTTPS callback URL to Google OAuth Authorized redirect URIs.
+7. Restart the app. Test:
+      https://YOUR-DOMAIN/
+      https://YOUR-DOMAIN/health
+      https://YOUR-DOMAIN/login
+
+DOMAIN
+------
+Connect your domain/subdomain in the hosting provider's domain settings and set
+its DNS records exactly as that provider instructs. The app does not create or
+register a domain. Do not hardcode localhost or a temporary tunnel URL.
+
+DATA PRESERVATION
+-----------------
+- users.json and bots/ are included in this archive and have been preserved.
+- bots/dc5f4db5/bot.db passed SQLite integrity_check.
+- users.json is valid JSON.
+- Before replacing a live deployment, stop it and back up the LIVE users.json,
+  bots/, uploaded project folders, google_accounts.json (if present), and logs.
+- If live data is newer than this archive, keep the live data and copy only
+  updated application files/templates.
+- Keep the repository PRIVATE: users.json and backup ZIPs contain account data.
+- Do not upload .env, OAuth secrets, or a real PGX_SECRET_KEY to GitHub.
+- This package intentionally does not include the old session signing key.
+  Set PGX_SECRET_KEY in the host dashboard. If omitted, the app generates a
+  new local key on first start; sessions will be invalidated if that key changes.
+
+LOGIN
+-----
+Use the existing account credentials from your current users.json. The archive
+does not assert or reset an admin password. If the live database is newer,
+keep it. Google login works only after all three GOOGLE_* values are configured.
+
+HOSTING LIMITS / SECURITY
+------------------------
+- Free hosting providers can sleep, suspend, impose CPU/RAM/storage quotas, or
+  prohibit child processes. No free provider can be promised as permanently
+  24/7 without sleep.
+- PGX CLOUD runs customer-supplied project code as child processes. This is NOT
+  a secure multi-tenant sandbox. Do not expose public project creation or
+  untrusted customer code on a shared host without OS/container isolation,
+  separate users, network restrictions and enforced resource quotas.
+- Some shared/free Python hosts prohibit subprocesses, pip installs at runtime,
+  long-running workers, or psutil. Project start/stop and resource monitoring
+  may therefore be unavailable even if the website itself loads.
+- RAM/CPU values in the panel are application monitoring settings, not hard
+  kernel-enforced limits. Disk plan values are not filesystem quotas.
+- The legacy GET /api/create endpoint is now blocked for non-admin visitors.
+- Full runtime/browser and Google OAuth tests require installing dependencies,
+  a live host, and your own OAuth credentials. Syntax/data checks alone do not
+  prove that the host permits all panel features.

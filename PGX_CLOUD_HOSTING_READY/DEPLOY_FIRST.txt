@@ -1,0 +1,24 @@
+PGX CLOUD — HOSTING-READY PACKAGE
+
+Read HOSTING_GUIDE.txt before deployment. This is a Python/Flask WSGI app,
+not static-only HTML.
+
+Upload the CONTENTS of this folder into your Python application's root:
+app.py, passenger_wsgi.py, requirements.txt and templates/ must be at root.
+
+For cPanel/Passenger:
+  Startup file: passenger_wsgi.py
+  Callable: application
+
+For Gunicorn hosts, use the Procfile included in this folder.
+
+Set PGX_SECRET_KEY, PGX_COOKIE_SECURE=1, and (if Google login is required)
+GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI in the host's
+environment settings. Never commit secrets to a public repository.
+
+Preserve the LIVE users.json, bots/, uploaded project files and databases if
+they are newer than this archive. Keep your repository private because this
+package contains user account data and historical backups.
+
+This package cannot guarantee that a free host permits child processes or
+stays awake 24/7. See HOSTING_GUIDE.txt for limitations and security notes.

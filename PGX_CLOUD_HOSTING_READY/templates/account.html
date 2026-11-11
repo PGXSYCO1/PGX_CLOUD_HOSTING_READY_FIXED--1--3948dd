@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account | PGX CLOUD</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="min-h-screen bg-[#090b12] text-white p-4 md:p-8">
+<div class="mx-auto max-w-4xl">
+ <header class="mb-8 flex flex-wrap items-center justify-between gap-3"><div><div class="text-sm font-bold tracking-widest text-cyan-300">PGX CLOUD</div><h1 class="mt-1 text-3xl font-black">My Account</h1><p class="mt-1 text-sm text-gray-400">Signed in as {{ email or username }}</p></div><a href="{{ url_for('logout') }}" class="rounded-lg border border-white/15 px-4 py-2 text-sm hover:bg-white/5">Log out</a></header>
+ {% if show_claim and not free_claimed %}
+ <section class="mb-6 rounded-2xl border border-purple-400/30 bg-gradient-to-br from-purple-950/50 to-[#111827] p-6"><h2 class="text-xl font-bold">Claim your free hosting</h2><p class="mt-2 text-sm text-gray-300">One free Python project per Google account · 1GB RAM · 1GB disk allocation · 30% CPU plan · 3 days.</p><form method="POST" action="{{ url_for('free_claim') }}" class="mt-5"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-3 font-bold hover:brightness-110">Claim Free Panel</button></form></section>
+ {% endif %}
+ <section class="rounded-2xl border border-white/10 bg-[#111522] p-5"><div class="flex flex-wrap items-center justify-between gap-3"><div><h2 class="text-lg font-bold">Your projects</h2><p class="text-xs text-gray-400">Existing projects remain attached to this account.</p></div>{% if not free_claimed %}<a href="{{ url_for('free_claim') }}" class="rounded-lg border border-cyan-400/40 px-4 py-2 text-sm text-cyan-200 hover:bg-cyan-400/10">Claim free hosting</a>{% endif %}</div>
+ <div class="mt-4 space-y-3">{% for server in servers %}<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-black/25 p-4"><div><div class="font-semibold">Project {{ server.server_id }}</div><div class="mt-1 text-xs text-gray-400">{{ server.type or 'python' }} · {{ server.ram or '—' }} RAM · {{ server.disk or '—' }} disk · {{ server.status or 'stopped' }}</div></div><a href="{{ url_for('account_open_project', server_id=server.server_id) }}" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold">Open panel</a></div>{% else %}<p class="rounded-xl bg-black/20 p-4 text-sm text-gray-400">No hosting projects yet. Claim your free panel to get started.</p>{% endfor %}</div>
+ {% if free_claimed %}<p class="mt-4 text-xs text-green-300">Free claim already used on this account.</p>{% endif %}</section>
+</div></body></html>
